@@ -61,3 +61,39 @@ class FaceDetectionManager:
                 self.landmarks= self.predictor(img, self.faceimg)
                 self.landmarks = self.shape_to_np(self.landmarks)
             return ret,self.landmarks
+
+class EyeDetectionManager:
+    left_eye=[]
+    right_eye=[]
+    RIGHT_EYE_POINTS = list(range(36, 42))
+    LEFT_EYE_POINTS = list(range(42, 48))
+    def getEye(self,landmarks):
+        self.left_eye = landmarks[self.LEFT_EYE_POINTS]
+        self.right_eye = landmarks[self.RIGHT_EYE_POINTS]
+        return self.left_eye,self.right_eye
+
+class EyeClosureManager:
+    EYE_AR_THRESH = 0.25
+    def eye_aspect_ratio(self,eye):
+        # compute the euclidean distances between the two sets of
+        # vertical eye landmarks (x, y)-coordinates
+        A = dist.euclidean(eye[1], eye[5])
+        B = dist.euclidean(eye[2], eye[4])
+        # compute the euclidean distance between the horizontal
+        # eye landmark (x, y)-coordinates
+        C = dist.euclidean(eye[0], eye[3])
+        # compute the eye aspect ratio
+        ear = (A + B) / (2.0 * C)
+        # return the eye aspect ratio
+        return ear
+    def Drowsiness_Detected(self,left_eye,right_eye):
+        try:
+            ear_left = self.eye_aspect_ratio(left_eye)
+            ear_right = self.eye_aspect_ratio(right_eye)
+            ear = (ear_left + ear_right) / 2.0
+            if ear < self.EYE_AR_THRESH:
+                return 1
+            else:
+                return 0
+        except:
+            return -1
