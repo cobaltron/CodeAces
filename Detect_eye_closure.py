@@ -97,3 +97,61 @@ class EyeClosureManager:
                 return 0
         except:
             return -1
+class BuzzerAPI:
+
+    def alarm(self):
+        if ps:
+            playsound('alarm-buzzer.mp3')# Activated when drowsiness is detected
+    def alert(self):
+        playsound('alert.mp3')# Activated when no or more than one face is detected
+
+class MainManager:
+
+    global ps  #global flag variable used to keep playing the buzzer
+    ps=True
+    EYE_AR_CONSEC_FRAMES = 25
+    COUNTER=0
+    ALARM_ON=False
+    def main(self):
+        video_capture = cv2.VideoCapture(1) #Video is being captured from webcam
+        c=0
+        while(True):
+            ret, frame = video_capture.read() #Read frame if present and return value for ret
+            f=Frame(frame)
+            cv2.imshow("out",f.res()) #Display the frame
+            if(cv2.waitKey(1) & 0xFF == ord('q')):#Option for termination of display window
+                break
+
+            #Objects of classes used for calling methods    
+            fm=FaceDetectionManager()
+            em=EyeDetectionManager()
+            ecm=EyeClosureManager()      
+            ba=BuzzerAPI()
+
+            ret,land=fm.getFace(f.res()) #Read landmark coordinates if present and return value for ret
+            leye,reye=em.getEye(land)   #Landmark coordibates for left and right eye
+            if(ecm.Drowsiness_Detected(leye,reye)==1): #Check whether drowsy or not
+                self.COUNTER += 1
+                if self.COUNTER >= self.EYE_AR_CONSEC_FRAMES:
+                    ps=True
+                    if not self.ALARM_ON:
+                        self.ALARM_ON = True
+                        t = Thread(target=ba.alarm) #A deamon thread is created for activating the alarm if drowsiness is detected
+                        t.deamon = True
+                        t.start()
+            elif(ecm.Drowsiness_Detected(leye,reye)==-1):
+                c=c+1
+                if(c%45==0): #To prevent overlapping buzzer playing(due to creatiion of multiple threads) using a set number of frames found using trial and error
+                    t1 = Thread(name='Thread-a',target=ba.alert) #A deamon thread is created for activating the alert if no face or more than one face is detected
+                    t1.setDaemon(True)
+                    t1.start()
+            else:
+                self.COUNTER = 0
+                self.ALARM_ON = False
+                ps=False    
+                
+        video_capture.release()
+        cv2.destroyAllWindows()
+
+ob=MainManager() # main manager object is being created
+ob.main() #method for main manager is being called
