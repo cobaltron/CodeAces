@@ -65,9 +65,10 @@ class FaceDetectionManager:
 class EyeDetectionManager:
     left_eye=[]
     right_eye=[]
+    #array of indexes to be extracted from the array of coordinates
     RIGHT_EYE_POINTS = list(range(36, 42))
     LEFT_EYE_POINTS = list(range(42, 48))
-    def getEye(self,landmarks):
+    def getEye(self,landmarks): # landmarks for left and right eye is being returned
         self.left_eye = landmarks[self.LEFT_EYE_POINTS]
         self.right_eye = landmarks[self.RIGHT_EYE_POINTS]
         return self.left_eye,self.right_eye
@@ -88,8 +89,10 @@ class EyeClosureManager:
         return ear
     def Drowsiness_Detected(self,left_eye,right_eye):
         try:
+            #calculate and store the Eye Aspect Ratios for the left and right eye
             ear_left = self.eye_aspect_ratio(left_eye)
             ear_right = self.eye_aspect_ratio(right_eye)
+            #find the average EAR
             ear = (ear_left + ear_right) / 2.0
             if ear < self.EYE_AR_THRESH:
                 return 1
@@ -97,6 +100,7 @@ class EyeClosureManager:
                 return 0
         except:
             return -1
+
 class BuzzerAPI:
 
     def alarm(self):
