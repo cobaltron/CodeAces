@@ -1,4 +1,4 @@
-opencv-python==4.0.0
+opencv-python==4.0.0.21
 dlib==18.17.100
 scipy==1.4.1
 playsound
