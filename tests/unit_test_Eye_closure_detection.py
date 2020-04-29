@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../src/')
 from Detect_eye_closure import Frame,FaceDetectionManager,EyeDetectionManager,EyeClosureManager
 import unittest
 import cv2
@@ -20,7 +22,7 @@ class Test_simple(unittest.TestCase):
             landmarks=[]
             landmarks=np.array(landmarks)
             detector = dlib.get_frontal_face_detector()
-            predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')#loading the pretrained model for facial landmark detection
+            predictor = dlib.shape_predictor('../resources/shape_predictor_68_face_landmarks.dat')#loading the pretrained model for facial landmark detection
             im=cv2.imread(self.i)
             f=Frame(im)
             img=f.res()
