@@ -35,7 +35,7 @@ class FaceDetectionManager:
     gray_face=[]
     gray_face=np.array(gray_face)
     detector = dlib.get_frontal_face_detector()#inbuilt face detector in dlib
-    predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')#loading the pretrained model for facial landmark detection
+    predictor = dlib.shape_predictor('../resources/shape_predictor_68_face_landmarks.dat')#loading the pretrained model for facial landmark detection
     def shape_to_np(self,shape, dtype="int"):
         # initialize the list of (x, y)-coordinates
         coords = np.zeros((68, 2), dtype=dtype)
@@ -105,9 +105,9 @@ class BuzzerAPI:
 
     def alarm(self):
         if ps:
-            playsound('alarm-buzzer.mp3')# Activated when drowsiness is detected
+            playsound('../resources/alarm-buzzer.mp3')# Activated when drowsiness is detected
     def alert(self):
-        playsound('alert.mp3')# Activated when no or more than one face is detected
+        playsound('../resources/alert.mp3')# Activated when no or more than one face is detected
 
 class MainManager:
 
@@ -117,7 +117,7 @@ class MainManager:
     COUNTER=0
     ALARM_ON=False
     def main(self):
-        video_capture = cv2.VideoCapture(1) #Video is being captured from webcam
+        video_capture = cv2.VideoCapture(0) #Video is being captured from webcam
         c=0
         while(True):
             ret, frame = video_capture.read() #Read frame if present and return value for ret
