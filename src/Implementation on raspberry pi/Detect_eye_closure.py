@@ -35,7 +35,7 @@ class FaceDetectionManager:
     gray_face=[]
     gray_face=np.array(gray_face)
     detector = dlib.get_frontal_face_detector()#inbuilt face detector in dlib
-    predictor = dlib.shape_predictor('../resources/shape_predictor_68_face_landmarks.dat')#loading the pretrained model for facial landmark detection
+    predictor = dlib.shape_predictor('../../resources/shape_predictor_68_face_landmarks.dat')#loading the pretrained model for facial landmark detection
     def shape_to_np(self,shape, dtype="int"):
         # initialize the list of (x, y)-coordinates
         coords = np.zeros((68, 2), dtype=dtype)
