@@ -107,7 +107,7 @@ class BuzzerAPI:
         if ps:
             os.system('mpg123 "../../resources/alarm-buzzer.mp3"')# Activated when drowsiness is detected
     def alert(self):
-        playsound('mpg123 "../../resources/alert.mp3"')# Activated when no or more than one face is detected
+        os.system('mpg123 "../../resources/alert.mp3"')# Activated when no or more than one face is detected
 
 class MainManager:
 
