@@ -4,7 +4,7 @@ import dlib
 from scipy.spatial import distance as dist
 from threading import Thread
 import threading
-from playsound import playsound
+import os
 
 class Frame:
     img=[]
@@ -35,7 +35,7 @@ class FaceDetectionManager:
     gray_face=[]
     gray_face=np.array(gray_face)
     detector = dlib.get_frontal_face_detector()#inbuilt face detector in dlib
-    predictor = dlib.shape_predictor('../resources/shape_predictor_68_face_landmarks.dat')#loading the pretrained model for facial landmark detection
+    predictor = dlib.shape_predictor('../../resources/shape_predictor_68_face_landmarks.dat')#loading the pretrained model for facial landmark detection
     def shape_to_np(self,shape, dtype="int"):
         # initialize the list of (x, y)-coordinates
         coords = np.zeros((68, 2), dtype=dtype)
@@ -101,13 +101,24 @@ class EyeClosureManager:
         except:
             return -1
 
+class MouthDetectionManager:
+    upper_lip=[]
+    lower_lip=[]
+    #array of indexes to be extracted from the array of coordinates
+    LOWER_LIP_POINTS = list(range(65, 68))
+    UPPER_LIP_POINTS = list(range(61, 64))
+    def getMouth(self,landmarks):#landmarks for upper and lower lip is being returned
+        self.upper_lip=landmarks[self.UPPER_LIP_POINTS]
+        self.lower_lip=landmarks[self.LOWER_LIP_POINTS]
+        return self.upper_lip,self.lower_lip
+
 class BuzzerAPI:
 
     def alarm(self):
         if ps:
-            playsound('../resources/alarm-buzzer.mp3')# Activated when drowsiness is detected
+            os.system('mpg123 "../../resources/alarm-buzzer.mp3"')# Activated when drowsiness is detected
     def alert(self):
-        playsound('../resources/alert.mp3')# Activated when no or more than one face is detected
+        os.system('mpg123 "../../resources/alert.mp3"')# Activated when no or more than one face is detected
 
 class MainManager:
 
