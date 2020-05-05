@@ -11,3 +11,7 @@ April 29th,2020
 This release contains the first functionality of our project.
 -Detect Eye Closure
 -Unit Test for the usecase
+
+Release v0.1.1
+This release contains
+-Bug Fixes
