@@ -1,6 +1,6 @@
 import sys
 sys.path.append('../src/')
-from Detect_eye_closure import Frame,FaceDetectionManager,EyeDetectionManager,EyeClosureManager
+from Drowsiness_Detection import Frame,FaceDetectionManager,EyeDetectionManager,EyeClosureManager
 import unittest
 import cv2
 import dlib
