@@ -111,7 +111,21 @@ class MouthDetectionManager:
         self.upper_lip=landmarks[self.UPPER_LIP_POINTS]
         self.lower_lip=landmarks[self.LOWER_LIP_POINTS]
         return self.upper_lip,self.lower_lip
+class YawningManager:
+    YAWN_THRESH = 8
+    def yawn_detection(self,upper_lip,lower_lip):#Distance between the upper and lower lip is being measured
+        top_mean = np.mean(upper_lip, axis=0)
+        low_mean = np.mean(lower_lip, axis=0)
+        dist = abs(top_mean[1] - low_mean[1])
+        #print(dist)
+        return dist
+    def Drowsiness_Detected(self,upper_lip,lower_lip): #Comparing the calculated distance with threshold and drowsiness is detected
 
+        d=self.yawn_detection(upper_lip,lower_lip)
+        if d > self.YAWN_THRESH:
+            return 1
+        else:
+            return 0
 class BuzzerAPI:
 
     def alarm(self):
