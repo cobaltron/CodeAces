@@ -135,12 +135,12 @@ class BuzzerAPI:
             if platform == "win32":
                 playsound('../resources/alarm-buzzer.mp3')# Activated when drowsiness is detected
             else:
-                os.system('mpg123 "../../resources/alarm-buzzer.mp3"')# Activated when drowsiness is detected
+                os.system('mpg123 "../resources/alarm-buzzer.mp3"')# Activated when drowsiness is detected
     def alert(self):
         if platform=="win32":
             playsound('../resources/alert.mp3')# Activated when no or more than one face is detected
         else:
-            os.system('mpg123 "../../resources/alert.mp3"')# Activated when no or more than one face is detected
+            os.system('mpg123 "../resources/alert.mp3"')# Activated when no or more than one face is detected
 
 class MainManager:
 
