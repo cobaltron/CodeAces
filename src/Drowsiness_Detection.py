@@ -6,6 +6,7 @@ from threading import Thread
 import threading
 from playsound import playsound
 from sys import platform
+import os
 
 class Frame:
     img=[]
@@ -151,7 +152,7 @@ class MainManager:
     YAWN_COUNTER=0
     ALARM_ON=False
     def main(self):
-        video_capture = cv2.VideoCapture(0, cv2.CAP_DSHOW) #Video is being captured from webcam
+        video_capture = cv2.VideoCapture(0) #Video is being captured from webcam
         c=0
         while(True):
             ret, frame = video_capture.read() #Video is being captured from webcam
