@@ -5,6 +5,7 @@ from scipy.spatial import distance as dist
 from threading import Thread
 import threading
 from playsound import playsound
+from sys import platform
 
 class Frame:
     img=[]
@@ -130,9 +131,15 @@ class BuzzerAPI:
 
     def alarm(self):
         if ps:
-            playsound('../resources/alarm-buzzer.mp3')# Activated when drowsiness is detected
+            if platform == "win32":
+                playsound('../resources/alarm-buzzer.mp3')# Activated when drowsiness is detected
+            else:
+                os.system('mpg123 "../../resources/alarm-buzzer.mp3"')# Activated when drowsiness is detected
     def alert(self):
-        playsound('../resources/alert.mp3')# Activated when no or more than one face is detected
+        if platform=="win32":
+            playsound('../resources/alert.mp3')# Activated when no or more than one face is detected
+        else:
+            os.system('mpg123 "../../resources/alert.mp3"')# Activated when no or more than one face is detected
 
 class MainManager:
 
