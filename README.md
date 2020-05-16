@@ -16,6 +16,9 @@ Release v0.1.1
 This release contains
 -Bug Fixes
 
+<<<<<<< HEAD
 Release v0.2
 This release contains
 -Yawning Detection
+=======
+>>>>>>> 3a035aa3119fcfdea59c4dd8bc1d9e3ea598b24d
