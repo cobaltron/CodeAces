@@ -15,3 +15,7 @@ This release contains the first functionality of our project.
 Release v0.1.1
 This release contains
 -Bug Fixes
+
+Release v0.2
+This release contains
+-Yawning Detection
