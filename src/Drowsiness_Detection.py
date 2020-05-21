@@ -181,9 +181,11 @@ class MainManager:
                         t.deamon = True
                         t.start()
             elif(ecm.Drowsiness_Detected(leye,reye)==-1):
-                t1 = Thread(name='Thread-a',target=ba.alert)#A deamon thread is created for activating the alarm if drowsiness is detected
-                t1.setDaemon(True)
-                t1.start()
+                c=c+1
+                if(c%345==0): #2.2.2 :Bug fixed echoing of alert when no face or more than one face is detected
+                    t1 = Thread(name='Thread-a',target=ba.alert)#A deamon thread is created for activating the alarm if drowsiness is detected
+                    t1.setDaemon(True)
+                    t1.start()
             else:
                 self.EYE_COUNTER = 0
                 self.ALARM_ON = False
