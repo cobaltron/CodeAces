@@ -21,3 +21,9 @@ Release v0.2
 This release contains
 -Yawning Detection
 
+Release v1.0rc
+This release contains
+-Detect Eye Closure
+-Yawning Detection
+-Bug fixes
+
