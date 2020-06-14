@@ -4,13 +4,13 @@ Design Lab
 
 ## Requirements
 
-1.Python 3.5 and above
-2.opencv-python==4.0.0.21
-3.dlib==18.17.100
-4.scipy==1.4.1
-5.playsound
-6.Rapbian OS
-7.mpg123 on Raspbian
+1. Python 3.5 and above
+2. opencv-python==4.0.0.21
+3. dlib==18.17.100
+4. scipy==1.4.1
+5. playsound
+6. Rapbian OS
+7. mpg123 on Raspbian
 
 ##Steps to Execute Script on Rasbian Os
 ```
