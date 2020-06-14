@@ -27,31 +27,33 @@ Read more: http://103.127.146.165/wiki/index.php?title=CodeAces:Main
 April 29th,2020
 
 This release contains the first functionality of our project.
--Detect Eye Closure
--Unit Test for the usecase
+1. Detect Eye Closure
+2. Unit Test for the usecase
 
 * Release v0.1.1
 This release contains
--Bug Fixes
+1. Bug Fixes for v0.1
 
 
 * Release v0.2
 This release contains
--Yawning Detection
+1. Yawning Detection
 
 * Release v1.0rc
 This release contains
--Detect Eye Closure
--Yawning Detection
--Bug fixes
+1. Detect Eye Closure
+2. Yawning Detection
+3. Bug fixes
 
 * Release v1.0
+
 This release contains
--Detect Eye Closure
--Yawning Detection
--Bug fixes
--Bash script to run python Script
-- Updated Readme
+1. Detect Eye Closure
+2. Yawning Detection
+3. Bug fixes
+4. Bash script to run python Script
+5. Unit Test
+6. Updated Readme
 
 ## Troubleshooting
 If "Camera not connected.Check connection." is shown check your camera connections or access permissions.
