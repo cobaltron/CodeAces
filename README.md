@@ -1,7 +1,25 @@
-# CodeAces
-Design Lab Project Repository
+# Driver Drowsiness Alert System 
 
-Driver Drowsiness Alert System
+Design Lab
+
+## Requirements
+
+1.Python 3.5 and above
+2.opencv-python==4.0.0.21
+3.dlib==18.17.100
+4.scipy==1.4.1
+5.playsound
+6.Rapbian OS
+7.mpg123 on Raspbian
+
+##Steps to Execute Script on Rasbian Os
+```
+1.Download the project folder from Github
+2.Navigate to folder "CodeAces"
+3.Execute run.sh
+```
+
+
 
 Read more: http://103.127.146.165/wiki/index.php?title=CodeAces:Main
 
@@ -26,4 +44,5 @@ This release contains
 -Detect Eye Closure
 -Yawning Detection
 -Bug fixes
+
 
