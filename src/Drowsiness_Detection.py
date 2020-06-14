@@ -8,6 +8,7 @@ from playsound import playsound
 from sys import platform
 import os
 
+#Author-Sheersendu Ghosh
 class Frame:
     img=[]
     img=np.array(img)
@@ -28,7 +29,7 @@ class Frame:
         #converting to grayscale
         gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
         return gray
-
+#Author-Sheersendu Ghosh
 class FaceDetectionManager:
     faceimg=[]
     faceimg=np.array(faceimg)
@@ -64,6 +65,7 @@ class FaceDetectionManager:
                 self.landmarks = self.shape_to_np(self.landmarks)
             return ret,self.landmarks
 
+#Author-Sheersendu Ghosh
 class EyeDetectionManager:
     left_eye=[]
     right_eye=[]
@@ -74,7 +76,7 @@ class EyeDetectionManager:
         self.left_eye = landmarks[self.LEFT_EYE_POINTS]
         self.right_eye = landmarks[self.RIGHT_EYE_POINTS]
         return self.left_eye,self.right_eye
-
+#Author- Sheersendu Ghosh
 class EyeClosureManager:
     EYE_AR_THRESH = 0.25
     def eye_aspect_ratio(self,eye):
@@ -102,7 +104,7 @@ class EyeClosureManager:
                 return 0
         except:
             return -1
-        
+#Author-Souvik Dey
 class MouthDetectionManager:
     upper_lip=[]
     lower_lip=[]
@@ -113,6 +115,7 @@ class MouthDetectionManager:
         self.upper_lip=landmarks[self.UPPER_LIP_POINTS]
         self.lower_lip=landmarks[self.LOWER_LIP_POINTS]
         return self.upper_lip,self.lower_lip
+#Author-Souvik Dey
 class YawningManager:
     YAWN_THRESH = 8
     def yawn_detection(self,upper_lip,lower_lip):#Distance between the upper and lower lip is being measured
@@ -128,6 +131,7 @@ class YawningManager:
             return 1
         else:
             return 0
+#Author-Rajarshi Lahiri
 class BuzzerAPI:
 
     def alarm(self):
@@ -141,7 +145,7 @@ class BuzzerAPI:
             playsound('../resources/alert.mp3')# Activated when no or more than one face is detected
         else:
             os.system('mpg123 "../resources/alert.mp3"')# Activated when no or more than one face is detected
-
+#Author-Rajarshi Lahiri
 class MainManager:
 
     global ps #global flag variable used to keep playing the buzzer
@@ -156,54 +160,58 @@ class MainManager:
         c=0
         while(True):
             ret, frame = video_capture.read() #Video is being captured from webcam
-            f=Frame(frame)
-            cv2.imshow("out",f.res())
-            if(cv2.waitKey(1) & 0xFF == ord('q')):
+            if(ret==True):
+                f=Frame(frame)
+                cv2.imshow("out",f.res())
+                if(cv2.waitKey(1) & 0xFF == ord('q')):
+                    break
+                #Objects of classes used for calling methods
+                fm=FaceDetectionManager()
+                em=EyeDetectionManager()
+                ecm=EyeClosureManager()
+                mm=MouthDetectionManager()
+                ym=YawningManager() 
+                ba=BuzzerAPI()
+
+                ret,land=fm.getFace(f.res()) #Read landmark coordinates if present and return value for ret
+                leye,reye=em.getEye(land) #Landmark coordibates for left and right eye
+                upper,lower=mm.getMouth(land) #landmark coordinates for mouth
+                if(ecm.Drowsiness_Detected(leye,reye)==1):
+                    self.EYE_COUNTER += 1
+                    if self.EYE_COUNTER >= self.EYE_AR_CONSEC_FRAMES:
+                        ps=True
+                        if not self.ALARM_ON:
+                            self.ALARM_ON = True
+                            t = Thread(target=ba.alarm)#A deamon thread is created for activating the alarm if drowsiness is detected
+                            t.deamon = True
+                            t.start()
+                elif(ecm.Drowsiness_Detected(leye,reye)==-1):
+                    c=c+1
+                    if(c%45==0): #2.2.2 :Bug fixed echoing of alert when no face or more than one face is detected
+                        t1 = Thread(name='Thread-a',target=ba.alert)#A deamon thread is created for activating the alarm if drowsiness is detected
+                        t1.setDaemon(True)
+                        t1.start()
+                else:
+                    self.EYE_COUNTER = 0
+                    self.ALARM_ON = False
+                    ps=False    
+
+                if(ym.Drowsiness_Detected(upper,lower)==1):
+                    self.YAWN_COUNTER += 1
+                    if self.YAWN_COUNTER >= self.YAWN_CONSEC_FRAMES:
+                        ps=True
+                        if not self.ALARM_ON:
+                            self.ALARM_ON = True
+                            t = Thread(target=ba.alarm)#A deamon thread is created for activating the alarm if drowsiness is detected
+                            t.deamon = True
+                            t.start()
+                else:
+                    self.YAWN_COUNTER = 0
+                    self.ALARM_ON = False
+                    ps=False 
+            else:
+                print("Camera not connected.Check connection.")
                 break
-            #Objects of classes used for calling methods
-            fm=FaceDetectionManager()
-            em=EyeDetectionManager()
-            ecm=EyeClosureManager()
-            mm=MouthDetectionManager()
-            ym=YawningManager() 
-            ba=BuzzerAPI()
-
-            ret,land=fm.getFace(f.res()) #Read landmark coordinates if present and return value for ret
-            leye,reye=em.getEye(land) #Landmark coordibates for left and right eye
-            upper,lower=mm.getMouth(land) #landmark coordinates for mouth
-            if(ecm.Drowsiness_Detected(leye,reye)==1):
-                self.EYE_COUNTER += 1
-                if self.EYE_COUNTER >= self.EYE_AR_CONSEC_FRAMES:
-                    ps=True
-                    if not self.ALARM_ON:
-                        self.ALARM_ON = True
-                        t = Thread(target=ba.alarm)#A deamon thread is created for activating the alarm if drowsiness is detected
-                        t.deamon = True
-                        t.start()
-            elif(ecm.Drowsiness_Detected(leye,reye)==-1):
-                c=c+1
-                if(c%45==0): #2.2.2 :Bug fixed echoing of alert when no face or more than one face is detected
-                    t1 = Thread(name='Thread-a',target=ba.alert)#A deamon thread is created for activating the alarm if drowsiness is detected
-                    t1.setDaemon(True)
-                    t1.start()
-            else:
-                self.EYE_COUNTER = 0
-                self.ALARM_ON = False
-                ps=False    
-
-            if(ym.Drowsiness_Detected(upper,lower)==1):
-                self.YAWN_COUNTER += 1
-                if self.YAWN_COUNTER >= self.YAWN_CONSEC_FRAMES:
-                    ps=True
-                    if not self.ALARM_ON:
-                        self.ALARM_ON = True
-                        t = Thread(target=ba.alarm)#A deamon thread is created for activating the alarm if drowsiness is detected
-                        t.deamon = True
-                        t.start()
-            else:
-                self.YAWN_COUNTER = 0
-                self.ALARM_ON = False
-                ps=False 
         video_capture.release()
         cv2.destroyAllWindows()
 ob=MainManager() # main manager object is being created

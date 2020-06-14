@@ -5,18 +5,19 @@ import unittest
 import cv2
 import dlib
 import numpy as np
-class Test_simple(unittest.TestCase):
 
+class Test_simple(unittest.TestCase):
+        
+    #Author-Sheersendu Ghosh
     l=["face.jpg","eyes_closed.jpg","no_face.jpg"]
     for i in l:
-        
+
         def test_res(self):
             im=cv2.imread(self.i)
             f=Frame(im)
             img=f.res()
             expected_img_dimension=2
             self.assertEqual(img.ndim,expected_img_dimension)
-        
         def test_shape_to_np(self):
             faceimg=[]
             faceimg=np.array(faceimg)
@@ -37,8 +38,6 @@ class Test_simple(unittest.TestCase):
             else:
                 expected_landmarks_shape=(68,2)
                 self.assertEqual(landmarks.shape,expected_landmarks_shape)
-
-
 
         def test_getface(self):
             im=cv2.imread(self.i)
@@ -113,7 +112,7 @@ class Test_simple(unittest.TestCase):
                 self.assertFalse(t.strip().isdigit())
                 self.assertFalse(s.strip().isdigit())
 
-
+    #Author-Souvik Dey
     l=["face.jpg","no_face.jpg","yawn.jpg"]
     for i in l:
 
